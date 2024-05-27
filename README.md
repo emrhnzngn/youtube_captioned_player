@@ -13,9 +13,9 @@ and the Flutter guide for
 
 <p>
   This Library was prepared using
-  <a href="https://pub.dev/packages/youtube_explode_dart"target="_blank"
+  <a href="https://pub.dev/packages/video_player" target="_blank"
     >video_player</a>
-  and <a href="https://pub.dev/packages/youtube_explode_dart"target="_blank"
+  and <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
     >youtube_explode_dart</a>.
 </p>
 
@@ -23,12 +23,12 @@ Video Player is with subtitles and without YouTube iframe.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+<!--TODO: List what your package can do. Maybe include images, gifs, or videos.-->
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+<!--TODO: List prerequisites and provide or point to information on how to
+start using the package.-->
 
 ## Usage
 
@@ -69,8 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+<a href="https://pub.dev/packages/video_player" target="_blank"
+    >video_player</a>
+<a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
+    >youtube_explode_dart</a>.
 
 # youtube_captioned_player
