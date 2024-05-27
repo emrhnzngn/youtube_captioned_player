@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 ## Additional information
 
 <a href="https://pub.dev/packages/video_player" target="_blank"
-    >video_player</a>
+    >video_player</a></br>
 <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
     >youtube_explode_dart</a>.
 
