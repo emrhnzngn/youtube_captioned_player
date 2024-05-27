@@ -11,8 +11,17 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+```html
+<p>
+  This Library was prepared using
+  <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
+    >video_player</a
+  >
+  and youtube_explode_dart.
+</p>
+
+Video Player is with subtitles and without YouTube iframe.
+```
 
 ## Features
 
