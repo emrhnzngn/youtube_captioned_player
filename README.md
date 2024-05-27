@@ -11,7 +11,6 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-```html
 <p>
   This Library was prepared using
   <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
@@ -21,7 +20,6 @@ and the Flutter guide for
 </p>
 
 Video Player is with subtitles and without YouTube iframe.
-```
 
 ## Features
 
