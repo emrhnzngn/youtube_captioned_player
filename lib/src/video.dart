@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+// Video class
 class Video {
   // Stores the ID of the YouTube video to be played
   String videoId;
@@ -25,7 +26,9 @@ class Video {
     // Get the video manifest for the given video ID
     var manifest = await yt.videos.streamsClient.getManifest(videoId);
     // Get the video URL (use the second stream if available, otherwise use the first)
-    var videoUrl = manifest.streams.length > 1 ? manifest.streams[1].url.toString() : manifest.streams.first.url.toString();
+    var videoUrl = manifest.streams.length > 1
+        ? manifest.streams[1].url.toString()
+        : manifest.streams.first.url.toString();
     // Get the closed captions manifest for the given video ID
     var trackManifest = await yt.videos.closedCaptions.getManifest(videoId);
     // Get the caption track info for the specified language (default to English)
@@ -34,7 +37,9 @@ class Video {
     ClosedCaptionTrack? tracks;
     if (trackInfo.isNotEmpty) {
       // Get the VTT format caption track, if available
-      tracks = await yt.videos.closedCaptions.get(trackInfo.firstWhere((track) => track.format.formatCode == "vtt", orElse: () => trackInfo.first));
+      tracks = await yt.videos.closedCaptions.get(trackInfo.firstWhere(
+          (track) => track.format.formatCode == "vtt",
+          orElse: () => trackInfo.first));
     } else if (trackManifest.tracks.isNotEmpty) {
       // Get the first caption track from the manifest if no specific language track is available
       tracks = await yt.videos.closedCaptions.get(trackManifest.tracks.first);
@@ -56,12 +61,14 @@ class Video {
     for (final caption in captions) {
       // Write the caption start and end times in WebVTT format
       webvtt
-        ..writeln('${_formatTime(caption.offset)} --> ${_formatTime(caption.end)}')
+        ..writeln(
+            '${_formatTime(caption.offset)} --> ${_formatTime(caption.end)}')
         ..writeln(caption.text)
         ..writeln();
     }
     // Set the generated WebVTT content as the closed caption file for the video player controller
-    controller?.setClosedCaptionFile(Future.value(WebVTTCaptionFile(webvtt.toString())));
+    controller?.setClosedCaptionFile(
+        Future.value(WebVTTCaptionFile(webvtt.toString())));
   }
 
   // Method to format a Duration object into a WebVTT-compatible time string
@@ -73,7 +80,8 @@ class Video {
     // Format seconds with leading zeros
     final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
     // Format milliseconds with leading zeros
-    final milliseconds = (duration.inMilliseconds % 1000).toString().padLeft(3, '0');
+    final milliseconds =
+        (duration.inMilliseconds % 1000).toString().padLeft(3, '0');
     // Return the formatted time string
     return '$hours:$minutes:$seconds.$milliseconds';
   }

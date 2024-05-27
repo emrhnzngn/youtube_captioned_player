@@ -102,7 +102,8 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
   }
 
 // Positioned widget for displaying the video progress indicator and playback controls
-  Positioned _progress(double screenHeight, double screenWidth, VideoPlayerController controller) {
+  Positioned _progress(double screenHeight, double screenWidth,
+      VideoPlayerController controller) {
     return Positioned(
       bottom: isPortrait ? screenHeight * 0.045 : screenHeight * 0.1,
       left: screenWidth * 0.05,
@@ -114,7 +115,9 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
           GestureDetector(
             onTap: () {
               setState(() {
-                controller.value.isPlaying ? controller.pause() : controller.play();
+                controller.value.isPlaying
+                    ? controller.pause()
+                    : controller.play();
               });
             },
             child: Icon(
@@ -145,7 +148,8 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
   }
 
 // Positioned widget for displaying toggle buttons (captions, sound, and fullscreen)
-  Positioned _toggleButtons(double screenHeight, double screenWidth, VideoPlayerController controller) {
+  Positioned _toggleButtons(double screenHeight, double screenWidth,
+      VideoPlayerController controller) {
     return Positioned(
       bottom: isPortrait ? screenHeight * 0.01 : screenHeight * 0.02,
       left: isPortrait ? screenWidth * 0.12 : screenWidth * 0.085,
@@ -171,7 +175,9 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                   });
                 },
                 color: Colors.white.withOpacity(.5),
-                icon: Icon(caption ? Icons.closed_caption_outlined : Icons.closed_caption_disabled_outlined),
+                icon: Icon(caption
+                    ? Icons.closed_caption_outlined
+                    : Icons.closed_caption_disabled_outlined),
               ),
               // Toggle sound button
               IconButton(
@@ -207,7 +213,9 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                   });
                 },
                 color: Colors.white.withOpacity(.5),
-                icon: Icon(isPortrait ? Icons.fullscreen_rounded : Icons.fullscreen_exit_rounded),
+                icon: Icon(isPortrait
+                    ? Icons.fullscreen_rounded
+                    : Icons.fullscreen_exit_rounded),
               ),
             ],
           ),
@@ -217,7 +225,8 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
   }
 
 // Positioned widget for displaying closed captions
-  Positioned _captions(double screenWidth, double screenHeight, VideoPlayerController controller) {
+  Positioned _captions(double screenWidth, double screenHeight,
+      VideoPlayerController controller) {
     return Positioned(
       right: screenWidth * 0.02,
       left: screenWidth * 0.02,
@@ -233,7 +242,9 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
           textStyle: TextStyle(
             fontWeight: widget.closedCaptionsFontWeight,
             fontSize: widget.closedCaptionsFontSize,
-            color: controller.value.isPlaying ? closedCaptionsTextColor : closedCaptionsTextColor.withOpacity(.2),
+            color: controller.value.isPlaying
+                ? closedCaptionsTextColor
+                : closedCaptionsTextColor.withOpacity(.2),
           ),
         ),
       ),
@@ -292,12 +303,15 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                         height: widget.height ?? controller.value.size.height,
                         child: VideoPlayer(controller),
                       ),
-                      if (widget.isUi && uiVisible) // Show UI elements if they should be visible
+                      if (widget.isUi &&
+                          uiVisible) // Show UI elements if they should be visible
                         AnimatedOpacity(
                           curve: Curves.easeInOut,
 
                           duration: const Duration(seconds: 3),
-                          opacity: uiVisible ? 1.0 : 0.0, // Set opacity based on UI visibility
+                          opacity: uiVisible
+                              ? 1.0
+                              : 0.0, // Set opacity based on UI visibility
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
@@ -308,8 +322,10 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                                     : ColoredBox(
                                         color: Colors.black.withOpacity(.5),
                                         child: SizedBox(
-                                          width: widget.width ?? controller.value.size.width,
-                                          height: widget.height ?? controller.value.size.height,
+                                          width: widget.width ??
+                                              controller.value.size.width,
+                                          height: widget.height ??
+                                              controller.value.size.height,
                                         ),
                                       ),
                               ),
@@ -317,15 +333,20 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () {
                                   setState(() {
-                                    controller.value.isCompleted ? controller.seekTo(Duration.zero) : null;
-                                    controller.value.isPlaying ? controller.pause() : controller.play();
+                                    controller.value.isCompleted
+                                        ? controller.seekTo(Duration.zero)
+                                        : null;
+                                    controller.value.isPlaying
+                                        ? controller.pause()
+                                        : controller.play();
                                   });
                                 },
                               ),
                               // Playback controls
                               _progress(screenHeight, screenWidth, controller),
                               // Sound and caption toggle buttons
-                              _toggleButtons(screenHeight, screenWidth, controller),
+                              _toggleButtons(
+                                  screenHeight, screenWidth, controller),
                             ],
                           ),
                         ),
@@ -343,12 +364,20 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
   }
 }
 
-// Extension to format Duration as a time string
+// Extension to add a time formatting method to the Duration class
 extension DurationExtension on Duration {
+  // Getter to format Duration as a time string
   String get time {
+    // Get the total number of hours in the Duration
     final hour = inHours;
+    // Get the total number of minutes in the Duration and take the remainder after dividing by 60
     final minute = inMinutes % 60;
+    // Get the total number of seconds in the Duration and take the remainder after dividing by 60
     final second = inSeconds % 60;
+
+    // Construct the time string in the format HH.MM.SS
+    // If hours are not zero, include hours in the string
+    // Ensure two digits for minutes and seconds
     return "${hour != 0 ? ("${hour < 10 ? "0$hour" : hour}.") : ""}${minute < 10 ? "0$minute" : minute}.${second < 10 ? "0$second" : second}";
   }
 }
