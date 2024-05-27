@@ -21,13 +21,13 @@ and the Flutter guide for
 
 Video Player is with subtitles and without YouTube iframe.
 
-## Features
+<!--## Features
 
-<!--TODO: List what your package can do. Maybe include images, gifs, or videos.-->
+TODO: List what your package can do. Maybe include images, gifs, or videos.
 
 ## Getting started
 
-<!--TODO: List prerequisites and provide or point to information on how to
+TODO: List prerequisites and provide or point to information on how to
 start using the package.-->
 
 ## Usage
@@ -73,5 +73,3 @@ class _MyHomePageState extends State<MyHomePage> {
     >video_player</a></br>
 <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
     >youtube_explode_dart</a>.
-
-# youtube_captioned_player
