@@ -13,10 +13,10 @@ and the Flutter guide for
 
 <p>
   This Library was prepared using
-  <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
-    >video_player</a
-  >
-  and youtube_explode_dart.
+  <a href="https://pub.dev/packages/youtube_explode_dart"target="_blank"
+    >video_player</a>
+  and<a href="https://pub.dev/packages/youtube_explode_dart"target="_blank"
+    >youtube_explode_dart</a>.
 </p>
 
 Video Player is with subtitles and without YouTube iframe.
