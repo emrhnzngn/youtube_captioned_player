@@ -1,6 +1,6 @@
 name: youtube_captioned_player
 description: "Improved without iframe YouTube player with subtitles using video_player and youtube_explode_dart."
-version: 0.0.1+2
+version: 0.0.2
 repository: https://github.com/emrhnzngn/youtube_captioned_player
 issue_tracker: https://github.com/emrhnzngn/youtube_captioned_player/issues
 homepage: https://github.com/emrhnzngn/youtube_captioned_player
