@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
-
-import '../youtube_captioned_player.dart';
+import 'package:youtube_captioned_player/src/video.dart';
 
 class YoutubeCaptionedPlayer extends StatefulWidget {
   const YoutubeCaptionedPlayer({
@@ -19,25 +18,34 @@ class YoutubeCaptionedPlayer extends StatefulWidget {
     this.closedCaptionsTextColor = Colors.white,
   });
 
-  // The video object that contains information about the YouTube video and its controller
+  /// The video object that contains information about the YouTube video and its controller
   final Video video;
-  // The height of the video player widget
+
+  /// The height of the video player widget
   final double? height;
-  // The width of the video player widget
+
+  /// The width of the video player widget
   final double? width;
-  // Determines if the sound should be on or off
+
+  /// Determines if the sound should be on or off
   final bool sound;
-  // Determines if the captions should be displayed
+
+  /// Determines if the captions should be displayed
   final bool caption;
-  // Determines if the user interface (UI) should be displayed
+
+  /// Determines if the user interface (UI) should be displayed
   final bool isUi;
-  // Determines if scrubbing (seeking) through the video should be allowed
+
+  /// Determines if scrubbing (seeking) through the video should be allowed
   final bool allowScrubbing;
-  // Font size for closed captions
+
+  /// Font size for closed captions
   final double closedCaptionsFontSize;
-  // Font weight for closed captions
+
+  /// Font weight for closed captions
   final FontWeight closedCaptionsFontWeight;
-  // Text color for closed captions
+
+  /// Text color for closed captions
   final Color closedCaptionsTextColor;
 
   @override
@@ -45,25 +53,32 @@ class YoutubeCaptionedPlayer extends StatefulWidget {
 }
 
 class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
-  // Indicates whether sound is enabled
+  /// Indicates whether sound is enabled
   late bool sound;
-  // Indicates whether captions are enabled
+
+  /// Indicates whether captions are enabled
   late bool caption;
-  // Font size for closed captions
+
+  /// Font size for closed captions
   late double closedCaptionsFontSize;
-  // Font weight for closed captions
+
+  /// Font weight for closed captions
   late FontWeight closedCaptionsFontWeight;
-  // Text color for closed captions
+
+  /// Text color for closed captions
   late Color closedCaptionsTextColor;
-  // Indicates whether UI elements are visible
+
+  /// Indicates whether UI elements are visible
   late bool uiVisible;
-  // Indicates whether the device is in portrait orientation
+
+  /// Indicates whether the device is in portrait orientation
   late bool isPortrait;
 
   @override
   void initState() {
     super.initState();
-    // Initialize states with widget properties
+
+    /// Initialize states with widget properties
     sound = widget.sound;
     caption = widget.caption;
     closedCaptionsFontSize = widget.closedCaptionsFontSize;
@@ -72,7 +87,7 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
     isPortrait = true;
     uiVisible = widget.isUi;
 
-    // Load the video controller asynchronously
+    /// Load the video controller asynchronously
     Future.microtask(() async {
       await widget.video.loadController();
       widget.video.controller
@@ -80,7 +95,7 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
         ..setVolume(sound ? 1 : 0)
         ..addListener(_updateState);
 
-      // Hide UI elements after 3 seconds
+      /// Hide UI elements after 3 seconds
       Future.delayed(const Duration(seconds: 3), () {
         setState(() {
           uiVisible = false;
@@ -89,19 +104,19 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
     });
   }
 
-  // Update the state if the widget is still mounted
+  /// Update the state if the widget is still mounted
   void _updateState() {
     if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
-    // Remove the listener from the controller when the widget is disposed
+    /// Remove the listener from the controller when the widget is disposed
     widget.video.controller?.removeListener(_updateState);
     super.dispose();
   }
 
-// Positioned widget for displaying the video progress indicator and playback controls
+  /// Positioned widget for displaying the video progress indicator and playback controls
   Positioned _progress(double screenHeight, double screenWidth,
       VideoPlayerController controller) {
     return Positioned(
@@ -111,7 +126,7 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Play/Pause button
+          /// Play/Pause button
           GestureDetector(
             onTap: () {
               setState(() {
@@ -125,8 +140,10 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
               color: Colors.white,
             ),
           ),
-          const SizedBox(width: 8), // Slightly increased spacing for better UI
-          // Video progress indicator
+          const SizedBox(width: 8),
+
+          /// Slightly increased spacing for better UI
+          /// Video progress indicator
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
@@ -147,7 +164,7 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
     );
   }
 
-// Positioned widget for displaying toggle buttons (captions, sound, and fullscreen)
+  /// Positioned widget for displaying toggle buttons (captions, sound, and fullscreen)
   Positioned _toggleButtons(double screenHeight, double screenWidth,
       VideoPlayerController controller) {
     return Positioned(
@@ -158,14 +175,14 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Display the current position and duration of the video
+          /// Display the current position and duration of the video
           Text(
-            "${controller.value.position.time} / ${controller.value.duration.time}",
+            "${controller.value.position.inMinutes}:${(controller.value.position.inSeconds % 60).toString().padLeft(2, '0')} / ${controller.value.duration.inMinutes}:${(controller.value.duration.inSeconds % 60).toString().padLeft(2, '0')}",
             style: const TextStyle(color: Colors.white),
           ),
           Row(
             children: [
-              // Toggle captions button
+              /// Toggle captions button
               IconButton(
                 padding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
@@ -179,7 +196,8 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                     ? Icons.closed_caption_outlined
                     : Icons.closed_caption_disabled_outlined),
               ),
-              // Toggle sound button
+
+              /// Toggle sound button
               IconButton(
                 padding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
@@ -192,7 +210,8 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                 color: Colors.white.withOpacity(.5),
                 icon: Icon(sound ? Icons.volume_up_outlined : Icons.volume_off),
               ),
-              // Toggle fullscreen button
+
+              /// Toggle fullscreen button
               IconButton(
                 padding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
@@ -224,7 +243,7 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
     );
   }
 
-// Positioned widget for displaying closed captions
+  /// Positioned widget for displaying closed captions
   Positioned _captions(double screenWidth, double screenHeight,
       VideoPlayerController controller) {
     return Positioned(
@@ -257,7 +276,7 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     if (controller == null) {
-      // Show a loading indicator if the controller is not initialized yet
+      /// Show a loading indicator if the controller is not initialized yet
       return SizedBox(
         width: widget.width ?? MediaQuery.of(context).size.width,
         height: widget.height ?? MediaQuery.of(context).size.height,
@@ -281,9 +300,12 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                     if (widget.isUi) {
                       var loaded = false;
                       setState(() {
-                        uiVisible = !uiVisible; // Toggle UI visibility
+                        uiVisible = !uiVisible;
+
+                        /// Toggle UI visibility
                       });
-                      // Hide UI elements again after 5 seconds
+
+                      /// Hide UI elements again after 5 seconds
                       if (uiVisible && !loaded) {
                         await Future.delayed(const Duration(seconds: 3), () {
                           setState(() {
@@ -297,21 +319,22 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      // Video player
+                      /// Video player
                       SizedBox(
                         width: widget.width ?? controller.value.size.width,
                         height: widget.height ?? controller.value.size.height,
                         child: VideoPlayer(controller),
                       ),
-                      if (widget.isUi &&
-                          uiVisible) // Show UI elements if they should be visible
+                      if (widget.isUi && uiVisible)
+
+                        /// Show UI elements if they should be visible
                         AnimatedOpacity(
                           curve: Curves.easeInOut,
 
                           duration: const Duration(seconds: 3),
-                          opacity: uiVisible
-                              ? 1.0
-                              : 0.0, // Set opacity based on UI visibility
+                          opacity: uiVisible ? 1.0 : 0.0,
+
+                          /// Set opacity based on UI visibility
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
@@ -342,15 +365,18 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
                                   });
                                 },
                               ),
-                              // Playback controls
+
+                              /// Playback controls
                               _progress(screenHeight, screenWidth, controller),
-                              // Sound and caption toggle buttons
+
+                              /// Sound and caption toggle buttons
                               _toggleButtons(
                                   screenHeight, screenWidth, controller),
                             ],
                           ),
                         ),
-                      // Closed captions
+
+                      /// Closed captions
                       _captions(screenWidth, screenHeight, controller),
                     ],
                   ),
@@ -361,23 +387,5 @@ class _YoutubeCaptionedPlayerState extends State<YoutubeCaptionedPlayer> {
         );
       },
     );
-  }
-}
-
-// Extension to add a time formatting method to the Duration class
-extension DurationExtension on Duration {
-  // Getter to format Duration as a time string
-  String get time {
-    // Get the total number of hours in the Duration
-    final hour = inHours;
-    // Get the total number of minutes in the Duration and take the remainder after dividing by 60
-    final minute = inMinutes % 60;
-    // Get the total number of seconds in the Duration and take the remainder after dividing by 60
-    final second = inSeconds % 60;
-
-    // Construct the time string in the format HH.MM.SS
-    // If hours are not zero, include hours in the string
-    // Ensure two digits for minutes and seconds
-    return "${hour != 0 ? ("${hour < 10 ? "0$hour" : hour}.") : ""}${minute < 10 ? "0$minute" : minute}.${second < 10 ? "0$second" : second}";
   }
 }
