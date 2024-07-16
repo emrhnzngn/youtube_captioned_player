@@ -1,3 +1,4 @@
+![](https://komarev.com/ghpvc/?username=emrhnzngn&label=Views)
 <!--
 This README describes the package. If you publish this package to pub.dev,
 this README's contents appear on the landing page for your package.
@@ -73,4 +74,3 @@ class _MyHomePageState extends State<MyHomePage> {
     >video_player</a></br>
 <a href="https://pub.dev/packages/youtube_explode_dart" target="_blank"
     >youtube_explode_dart</a></br>
-![](https://komarev.com/ghpvc/?username=emrhnzngn&label=Views)
