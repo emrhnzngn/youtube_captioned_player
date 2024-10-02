@@ -38,8 +38,10 @@ class Video {
       return;
     }
 
-    /// Get the video URL (use the second stream if available, otherwise use the first).
+    /// Get the highest quality muxed stream.
     final videoStreamInfo = manifest.muxed.withHighestBitrate();
+
+    /// Get the video URL
     final videoUrl = videoStreamInfo.url.toString();
 
     /// Get the closed captions manifest for the given video ID.
