@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -31,9 +32,8 @@ class Video {
     var manifest = await yt.videos.streamsClient.getManifest(videoId);
 
     /// Get the video URL (use the second stream if available, otherwise use the first).
-    var videoUrl = manifest.streams.length > 1
-        ? manifest.streams[1].url.toString()
-        : manifest.streams.first.url.toString();
+    var videoStreamInfo = manifest.muxed.withHighestBitrate();
+    var videoUrl = videoStreamInfo.url.toString();
 
     /// Get the closed captions manifest for the given video ID.
     var trackManifest = await yt.videos.closedCaptions.getManifest(videoId);
