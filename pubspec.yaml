@@ -12,8 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  video_player: ^2.9.1
-  youtube_explode_dart: ^2.2.1
+  video_player: ^2.9.2
+  youtube_explode_dart: ^2.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

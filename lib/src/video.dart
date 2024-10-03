@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -25,21 +26,29 @@ class Video {
   /// Asynchronous method to load and initialize the video controller.
   Future<void> loadController() async {
     /// Create an instance of YoutubeExplode
-    var yt = YoutubeExplode();
+    final yt = YoutubeExplode();
+
+    StreamManifest manifest;
 
     /// Get the video manifest for the given video ID.
-    var manifest = await yt.videos.streamsClient.getManifest(videoId);
+    try {
+      manifest = await yt.videos.streamsClient.getManifest(videoId);
+    } on YoutubeExplodeException catch (e) {
+      log('Failed to load video: $e');
+      return;
+    }
 
-    /// Get the video URL (use the second stream if available, otherwise use the first).
-    var videoUrl = manifest.streams.length > 1
-        ? manifest.streams[1].url.toString()
-        : manifest.streams.first.url.toString();
+    /// Get the highest quality muxed stream.
+    final videoStreamInfo = manifest.muxed.withHighestBitrate();
+
+    /// Get the video URL
+    final videoUrl = videoStreamInfo.url.toString();
 
     /// Get the closed captions manifest for the given video ID.
-    var trackManifest = await yt.videos.closedCaptions.getManifest(videoId);
+    final trackManifest = await yt.videos.closedCaptions.getManifest(videoId);
 
     /// Get the caption track info for the specified language (default to English).
-    var trackInfo = trackManifest.getByLanguage(captionLanguageCode ?? "en");
+    final trackInfo = trackManifest.getByLanguage(captionLanguageCode ?? "en");
 
     /// Variable to store the closed caption track.
     ClosedCaptionTrack? tracks;
@@ -64,6 +73,9 @@ class Video {
 
     /// If there are caption tracks, load them as WebVTT.
     if (tracks != null) _loadWebVTT(tracks.captions);
+
+    /// Dispose of the YoutubeExplode instance.
+    yt.close();
   }
 
   /// Method to load WebVTT captions into the video player controller.
