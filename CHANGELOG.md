@@ -13,3 +13,6 @@
 ## 0.0.4
 
 - Performance improvements
+## 0.0.5
+
+- Performance improvements
